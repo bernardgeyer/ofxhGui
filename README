@@ -1,0 +1,56 @@
+ofxhGui is a graphical user interface used as an openFrameworks add-on.
+
+Current version: 1.03
+
+ofxhGui has following widgets :
+
+- panels (can be nested)
+
+- tabs to show different panels (also available in nested panels)
+
+- labels, buttons, checkboxes, radio-buttons, sliders, 2D sliders, number boxes
+
+- listboxes(scrollable), button boxes, editable text (single or multi-lines/scrollable)
+
+- modeless dialogs
+
+More widgets will be add in future versions.
+
+Note:
+- changing the text insertion point and scrolling works on hTextArea (multi-line text) but not on hTextBox (single line text).
+
+- the arrow keys don't work actually on hTextArea and hTextBox.
+This will be addressed in future versions
+
+There is a default set of colors that can be modified. Fonts can also be changed.
+
+ofxhGui works with OF 0.06 and 0.07
+and has been tested on Mac OS X, Windows and Linux (Ubuntu 11.10)
+----------------------------------------------------------------------
+
+The addon ofxhGui depends on:
+
+- ofxhUtils
+
+- ofxXmlSettings (already in the addons folder of openFrameworks)
+
+It is also necessary to have a folder called 'fonts' in the data folder
+where the gui can search the needed fonts.
+
+The example files can be used as a tutorial for ofxhGui
+----------------------------------------------------------------------
+
+Changes and bug fixes:
+
+1.03:
+- add the possibility to give titles to dialogs
+
+1.02:
+- correction of incorrect display of sliders in linux. 
+- add <float.h> on platforms that need it.
+- avoid that the drawing of the gui modifies other draw settings (color and fillmode)
+
+1.01: 
+- correction of incorrect display of framed rectangles on certain video-cards 
+
+1.0: this is the first version
