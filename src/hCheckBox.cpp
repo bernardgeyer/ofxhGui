@@ -66,6 +66,8 @@ void hCheckBox::setMessage2(std::string s)
 
 void hCheckBox::bang(void)
 {
+	// cout << "hCheckBox::bang " << data->message << " " << data->index << " " << data->selected << endl;
+	
 	if(varType != HGUI_NO_VAR) syncVar();
 
 	if(data->message.size() > 0) {
@@ -78,26 +80,29 @@ void hCheckBox::bang(void)
 //--------------------------------------------------------------
 
 void hCheckBox::draw(void)
-{
+// Corrected bug: did'nt work correctly with another background color than the default
+{	
 	if(varType != HGUI_NO_VAR)
 		syncWithVar();
 	
     hGui * gui = hGui::getInstance();
 	
     ofFill();
-    if(backgroundColor != -1)
-		hSetHexColor(backgroundColor);
-    else hSetHexColor(gui->fillColor);
-    ofRect(x, y, w, h);
-	
-    if(data->selected) {
+    if(data->selected == false) {
+		if(backgroundColor != -1)
+			hSetHexColor(backgroundColor);
+		else hSetHexColor(gui->fillColor);
+		ofRect(x, y, w, h);
+	}
+    else {
         if(data->selectColor != -1)
 			hSetHexColor(data->selectColor);
         else hSetHexColor(gui->checkBoxColor);
 		ofRect(x, y, w, h);
     }
-	
-    hWidget::draw();
+
+	hSetHexColor(gui->borderColor);
+	hFrameRect(x, y, w, h);
 }
 
 //--------------------------------------------------------------
