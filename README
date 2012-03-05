@@ -30,7 +30,7 @@ and has been tested on Mac OS X, Windows and Linux (Ubuntu 11.10)
 
 The addon ofxhGui depends on:
 
-- ofxhUtils
+- ofxhUtils (please take the last version)
 
 - ofxXmlSettings (already in the addons folder of openFrameworks)
 
