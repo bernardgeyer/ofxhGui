@@ -1,6 +1,7 @@
 ofxhGui is a graphical user interface used as an openFrameworks add-on.
 
-Current version: 1.031
+Current version: 1.04
+Works with OF versions 0062, 007, 0071, 0072 and 0073
 
 ofxhGui has following widgets :
 
@@ -41,6 +42,9 @@ The example files can be used as a tutorial for ofxhGui
 ----------------------------------------------------------------------
 
 Changes and bug fixes:
+
+1.04
+- adapted to the new version of ofEvents() 
 
 1.031:
 - correction of bad display of selected checkboxes when they have a custom background
