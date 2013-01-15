@@ -1,7 +1,7 @@
 
 /*****************************************************************************
  
- Copyright (C) 2011 by Bernard Geyer
+ Copyright (C) 2011/2012 by Bernard Geyer
  
  http://bernardgeyer.com/
  
@@ -54,11 +54,19 @@
 
 void testApp::setup()
 {
-#if OF_VERSION < 7
-    ofSetWindowTitle("ofxhGuiExample1 - openFrameworks 6");
-#else
-    ofSetWindowTitle("ofxhGuiExample1 - openFrameworks 7");
+	string title = "ofxhGuiExample1 - ";
+	title += "ofxhGui ";
+	title += ofToString(HGUI_VERSION);
+	
+	title += " / openFrameworks ";
+	title += ofToString(OF_VERSION);
+
+#if OF_VERSION > 6
+	title += ofToString(".");
+	title += ofToString(OF_VERSION_MINOR);
 #endif
+	
+	ofSetWindowTitle(title);
 
 // hGui is a singleton object so it can be accessed from everywhere
 
@@ -629,9 +637,9 @@ void testApp::setup()
 
 	events->sendEvent("textArea2.clearText");
 	events->sendEvent("textArea2.setText", "All human beings are born free and equal in dignity and rights. They are endowed with reason and conscience and should act towards one another in a spirit of brotherhood.\n\n");
-	events->sendEvent("textArea2.addText", "Tous les êtres humains naissent libres et égaux en dignité et en droits. Ils sont doués de raison et de conscience et doivent agir les uns envers les autres dans un esprit de fraternité.\n\n");
-	events->sendEvent("textArea2.addText", "Alle Menschen sind frei und gleich an Würde und Rechten geboren. Sie sind mit Vernunft und Gewissen begabt und sollen einander im Geist der Brüderlichkeit begegnen.\n\n");
-	events->sendEvent("textArea2.addText", "Alle mennesker er født frie og lige i værdighed og rettigheder. De er udstyret med fornuft og samvittighed, og de bør handle mod hverandre i en broderskabets ånd.\n\n");
+	events->sendEvent("textArea2.addText", "Tous les Ãtres humains naissent libres et Ãˆgaux en dignitÃˆ et en droits. Ils sont douÃˆs de raison et de conscience et doivent agir les uns envers les autres dans un esprit de fraternitÃˆ.\n\n");
+	events->sendEvent("textArea2.addText", "Alle Menschen sind frei und gleich an WÂ¸rde und Rechten geboren. Sie sind mit Vernunft und Gewissen begabt und sollen einander im Geist der BrÂ¸derlichkeit begegnen.\n\n");
+	events->sendEvent("textArea2.addText", "Alle mennesker er fÂ¯dt frie og lige i vÃŠrdighed og rettigheder. De er udstyret med fornuft og samvittighed, og de bÂ¯r handle mod hverandre i en broderskabets Ã‚nd.\n\n");
 
 	// -------------------------------------------------------------------------------------
 
