@@ -1,7 +1,7 @@
 
 /*****************************************************************************
 
- Copyright (C) 2011 by Bernard Geyer
+ Copyright (C) 2011/2012 by Bernard Geyer
 
  http://bernardgeyer.com/
 
@@ -162,22 +162,41 @@ hTextBox * hGui::addTextBox(std::string name, hPanel * parent, int dispMode, int
 
 void hGui::addListeners(void)
 {
+#if OF_VERSION_MINOR < 1 // OF_VERSION_MINOR exists only since OF_VERSION 7
 	ofAddListener(ofEvents.draw, this, &hGui::draw);
 	ofAddListener(ofEvents.keyPressed, this, &hGui::keyPressed);
 
 	ofAddListener(ofEvents.mousePressed, this, &hGui::mousePressed);
 	ofAddListener(ofEvents.mouseDragged, this, &hGui::mouseDragged);
 	ofAddListener(ofEvents.mouseReleased, this, &hGui::mouseReleased);
+#else
+	ofAddListener(ofEvents().draw, this, &hGui::draw);
+	ofAddListener(ofEvents().keyPressed, this, &hGui::keyPressed);
+	
+	ofAddListener(ofEvents().mousePressed, this, &hGui::mousePressed);
+	ofAddListener(ofEvents().mouseDragged, this, &hGui::mouseDragged);
+	ofAddListener(ofEvents().mouseReleased, this, &hGui::mouseReleased);
+	
+#endif
 }
 
 void hGui::removeListeners(void)
 {
+#if OF_VERSION_MINOR < 1
 	ofRemoveListener(ofEvents.draw, this, &hGui::draw);
 	ofRemoveListener(ofEvents.keyPressed, this, &hGui::keyPressed);
 
 	ofRemoveListener(ofEvents.mousePressed, this, &hGui::mousePressed);
 	ofRemoveListener(ofEvents.mouseDragged, this, &hGui::mouseDragged);
 	ofRemoveListener(ofEvents.mouseReleased, this, &hGui::mouseReleased);
+#else
+	ofRemoveListener(ofEvents().draw, this, &hGui::draw);
+	ofRemoveListener(ofEvents().keyPressed, this, &hGui::keyPressed);
+	
+	ofRemoveListener(ofEvents().mousePressed, this, &hGui::mousePressed);
+	ofRemoveListener(ofEvents().mouseDragged, this, &hGui::mouseDragged);
+	ofRemoveListener(ofEvents().mouseReleased, this, &hGui::mouseReleased);
+#endif
 }
 
 // ---------------------------------------------------------------
