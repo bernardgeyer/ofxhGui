@@ -45,6 +45,7 @@ struct hGuiData {
 	int offset; // offset in the parent panel
 	
 	std::string label;
+	
 	double value, value2;
 	bool selectable;
 	bool selected;
