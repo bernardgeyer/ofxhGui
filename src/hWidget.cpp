@@ -204,6 +204,10 @@ bool hWidget::isSelected(void)
 void hWidget::toggleSelection(void)
 {
     setSelected(! isSelected());
+	/*
+	if(data->selected == true)cout << "selected" << endl;
+	else cout << "unselected" << endl;
+	 */
 }
 
 void hWidget::setRadioEnabled(bool radioFlag)
@@ -227,7 +231,6 @@ void hWidget::setVisibleBackground(bool visibleFlag)
 
 void hWidget::setBackgroundColor(int color)
 {
-	// cout << "hWidget::setBackgroundColor: " << color << endl;
 	backgroundColor = color;
 	setVisibleBackground(true);
 }
