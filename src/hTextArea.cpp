@@ -200,7 +200,7 @@ void hTextArea::bang(void)
 {
 	if((data->message.size() > 0) && (data->label.size() > 0))
         hEvents::getInstance()->sendEvent(data->message, data->label);
-        cout << "data->label: " << data->label << endl;
+        // cout << "data->label: " << data->label << endl;
 }
 
 //--------------------------------------------------------------
@@ -218,7 +218,7 @@ void hTextArea::draw()
 
     int xPos, yPos; string s;
     int lineIndex, charIndex;
-    int start_line;
+    int start_line = startLine;
 
 	// if(data->label.size() > 0) { // draw text
 	if(lines.size() > 0) { // draw text
@@ -227,7 +227,6 @@ void hTextArea::draw()
 			hSetHexColor(gui->editTextColor2);
 		else hSetHexColor(gui->textColor);
 
-        start_line = startLine;
         if(start_line > (lines.size() - 1))
             start_line = lines.size() - 1;
 
