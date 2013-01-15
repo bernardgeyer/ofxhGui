@@ -32,6 +32,8 @@
 #include "hEvents.h"
 #include <map>
 
+#define HGUI_VERSION 1.04
+
 class hWidget;
 class h2DSlider;
 class hAlert;
