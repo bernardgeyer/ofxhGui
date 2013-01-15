@@ -1,20 +1,20 @@
 
 /*****************************************************************************
- 
+
  Copyright (C) 2011 by Bernard Geyer
- 
+
  http://bernardgeyer.com/
- 
+
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
- 
+
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -22,7 +22,7 @@
  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
- 
+
  *****************************************************************************/
 
 #include "hButtonBox.h"
@@ -49,7 +49,7 @@ hButtonBox::hButtonBox(std::string name, hPanel * parent, int dispMode, int xx, 
     // Default index display parameters:
     indexDisplayFlag = false; // false by default
     indexShift1 = 12; indexShift10 = 6, indexShift100 = 0;
-	
+
 	x += 2; // Little correction
 }
 
@@ -63,12 +63,12 @@ void hButtonBox::addItems(int numXItems, int numYItems)
     xItems = numXItems;
     yItems = numYItems;
 
-    hGui * gui = hGui::getInstance();
+    // hGui * gui = hGui::getInstance(); // <- don't know why this was used here
 
 	string name = data->name;
 	string itemName;
 	int offset, index;
-	
+
 	int widthOfWidgets, heigthOfWidgets;
     int xx, yy;
 
@@ -80,7 +80,7 @@ void hButtonBox::addItems(int numXItems, int numYItems)
 			index = offset + startIndex;
 			itemName = name + "_" + ofToString(index);
 			// cout << itemName << endl;
-			
+
 			hButtonBoxItem *item = new hButtonBoxItem(itemName, this, HGUI_ABSOLUTE_POSITION, x+xx, y+yy, w, "");
 
             item->setWidth(itemWidth);
@@ -130,12 +130,12 @@ void hButtonBox::saveSettings(ofxXmlSettings * xml)
 	if(data->name.size() > 0) {
 		int tag = xml->addTag(data->type);
 		xml->pushTag(data->type, tag);
-		
+
 		xml->addValue("name", data->name);
-		
+
 		if(selectedRadio != NULL)
 			xml->addValue("selection", selectedRadio->offset+1);
-		
+
 		xml->popTag();
 	}
 }
