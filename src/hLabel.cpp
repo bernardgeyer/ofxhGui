@@ -42,6 +42,7 @@ hLabel::hLabel(std::string name, hPanel * parent, int dispMode, int xx, int yy, 
 
 	data->label = s;
 	fixedMode = false;
+	warningMode = false;
 }
 
 void hLabel::draw(void)
@@ -49,14 +50,30 @@ void hLabel::draw(void)
     hGui * gui = hGui::getInstance();
 
 	if(data->label.size() > 0) {
-		hSetHexColor(gui->textColor);
-        if(fixedMode == false)
-             hDrawString(gui->font,  data->label, x+1, y+gui->textHeight);
-        else hDrawString(gui->ffont, data->label, x+1, y+gui->ftextHeight);
+		int yy = y;
 
 		if(data->selected) {
 			hSetHexColor(gui->labelSelColor);
-			hFrameRect(x, y, w, h);
+			hPaintRect(x-1, y, w, h+2);
+			
+			hSetHexColor(gui->borderColor);
+			hFrameRect(x-1, y, w, h+2);
+			
+			yy += 2;
+			hSetHexColor(gui->labelSelTextColor);
+		}
+		
+		else hSetHexColor(gui->textColor);
+		
+        if(fixedMode == true) {
+			hDrawString(gui->ffont, data->label, x+4, yy+gui->ftextHeight);
+		}
+		else {
+			if(warningMode == true){
+				 hSetHexColor(gui->warningColor);
+				 hDrawString(gui->font, data->label, x+4, yy+gui->textHeight);
+			}
+			else hDrawString(gui->font,  data->label, x+4, yy+gui->textHeight);
 		}
     }
 }
@@ -86,6 +103,22 @@ void hLabel::setFixedMode(bool fixed)
     else {
         textWidth  = gui->ffont->stringWidth(data->label);
         w = textWidth; h = gui->ftextHeight+5;
+    }
+}
+
+void hLabel::setWarningMode(bool warning)
+{
+    hGui * gui = hGui::getInstance();
+	
+    warningMode = warning;
+	
+    if(warning == false) {
+        textWidth  = gui->font->stringWidth(data->label);
+        w = textWidth; h = gui->textHeight+5;
+    }
+    else {
+        textWidth  = gui->sfont->stringWidth(data->label);
+        w = textWidth; h = gui->stextHeight+5;
     }
 }
 

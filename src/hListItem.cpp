@@ -128,13 +128,13 @@ void hListItem::draw(void)
 		
         if(displayStr.size() > 0) {
             if(data->index >= 100) {
-				hDrawString(gui->font, displayStr, x+data->indexShift100+3, y+gui->textHeight+2);
+				hDrawString(gui->font, displayStr, x+data->indexShift100+4, y+gui->textHeight+2);
             }
             else if(data->index >= 10){
-				hDrawString(gui->font, displayStr, x+data->indexShift10+3,  y+gui->textHeight+2);
+				hDrawString(gui->font, displayStr, x+data->indexShift10+4,  y+gui->textHeight+2);
             }
             else {
-                hDrawString(gui->font, displayStr, x+data->indexShift1+3,   y+gui->textHeight+2);
+                hDrawString(gui->font, displayStr, x+data->indexShift1+4,   y+gui->textHeight+2);
             }
         }
     } // <- if(indexDisplayFlag == true)
