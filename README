@@ -1,11 +1,9 @@
 ofxhGui is a graphical user interface used as an openFrameworks add-on.
 
-Current version: 1.04
-Works with OF versions 0062, 007, 0071, 0072, 0073 and 0074
-and has been tested on Mac OS X, Windows and Ubuntu
+Current version: 1.05
 
-If you are using OF version 0.7.4, you have to make some little changes in order to display colors and text correctly.
-Please read the warning bellow.
+Works with OF 0.8 to 0.9
+The branch « OF0.6.2_to_0.7.4 » can be used with older versions of OF.
 
 ----------------------------------------------------------------------
 ofxhGui has following widgets :
@@ -41,43 +39,3 @@ It is also necessary to have a folder called 'fonts' in the data folder
 where the gui can search the needed fonts.
 
 The example files can be used as a tutorial for ofxhGui
-
-----------------------------------------------------------------------
-Warning for OF 0.7.4 users:
-In OF 0.7.4, the macro OF_VERSION in no longer defined.
-
-The following macros are used instead :
-#define OF_VERSION_MAJOR 0
-#define OF_VERSION_MINOR 7
-#define OF_VERSION_PATCH 4
-
-In order to work correctly, in the following files, 
-all occurrences of OF_VERSION have to be replaced by OF_VERSION_MINOR :
-
-hDrawingPrimitives.cpp
-hTextArea.cpp
-hTextBox.cpp
-
-in hGui.cpp, all occurrences of OF_VERSION_MINOR < 1 have to be replaced by OF_VERSION_MINOR < 7
-----------------------------------------------------------------------
-
-Changes and bug fixes:
-
-1.04
-- adapted to the new version of ofEvents() 
-
-1.031:
-- correction of bad display of selected checkboxes when they have a custom background
-
-1.03:
-- add the possibility to give titles to dialogs
-
-1.02:
-- correction of incorrect display of sliders in linux. 
-- add <float.h> on platforms that need it.
-- avoid that the drawing of the gui modifies other draw settings (color and fillmode)
-
-1.01: 
-- correction of incorrect display of framed rectangles on certain video-cards 
-
-1.0: this is the first version

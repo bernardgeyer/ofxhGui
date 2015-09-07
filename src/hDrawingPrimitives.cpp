@@ -36,12 +36,17 @@ void hFrameRect(int x, int y, int w, int h)
     ofNoFill();
     ofRect(x + .5, y + .5, w - 1, h - 1); // Thanks to kylemcdonald for his clever solution
 										  // https://github.com/openframeworks/openFrameworks/issues/798
+
+    // ofRectRounded(x + .5, y + .5, w - 1, h - 1, 3); // test
 }
 
 void hPaintRect(int x, int y, int w, int h)
 {
     ofFill();
     ofRect(x, y, w, h);
+	
+    //ofRectRounded(x, y, w, h, 3); // test
+	
     hFrameRect(x, y, w, h);
 }
 
@@ -56,30 +61,17 @@ void hLine(float x1, float y1, float x2, float y2)
 
 void hSetHexColor(int hexColor)
 {
-#if OF_VERSION < 7
-	// cout << "using OF version 6" << endl;
-	ofSetColor(hexColor);
-#else
-	// cout << "using OF version 7" << endl;
 	ofSetHexColor(hexColor);
-#endif
 }
 
 //--------------------------------------------------------------
-
-#if OF_VERSION < 7 // we need the getSize() method that exists only in OF 7
-	class extendedOfTrueTypeFont : public ofTrueTypeFont { public: int getSize(void){return fontSize;} };
-#endif
 
 void hDrawString(ofTrueTypeFont *fnt, std::string s, float x, float y)
 {
 	int yShift;
 
-#if OF_VERSION < 7
-	int size = ((extendedOfTrueTypeFont *)fnt)->getSize();
-#else
 	int size = fnt->getSize();
-#endif
+
 	switch(size) {
 		case 7: yShift = -1; break;
 		case 8: yShift = -1; break;
@@ -87,11 +79,7 @@ void hDrawString(ofTrueTypeFont *fnt, std::string s, float x, float y)
 		default: yShift = size - 8;
 	}
 
-#if OF_VERSION < 7
-	fnt->drawString(s, x-2, (y-2) - yShift);
-#else
 	fnt->drawString(s, x, y - yShift);
-#endif
 }
 
 //--------------------------------------------------------------

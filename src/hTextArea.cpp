@@ -224,7 +224,7 @@ void hTextArea::draw()
 	if(lines.size() > 0) { // draw text
 		// when data->label.size() > 0, lines.size() is also > 0
 		if(editable)
-			hSetHexColor(gui->editTextColor2);
+			hSetHexColor(gui->editTextColor);
 		else hSetHexColor(gui->textColor);
 
         if(start_line > (lines.size() - 1))
@@ -346,11 +346,7 @@ void hTextArea::mousePressed(int xx, int yy, int btn)
     int strOffset = 0;
     int charNum   = 0;
 
-#if OF_VERSION < 7
-	int lineShift = 5;
-#else
 	int lineShift = 2;
-#endif
 
 #if defined( __WIN32__ ) || defined( _WIN32 )
     lineShift-=1;

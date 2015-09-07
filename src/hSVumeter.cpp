@@ -25,50 +25,48 @@
  
  *****************************************************************************/
 
-#ifndef _HLABEL
-#define _HLABEL
+#include "hSVumeter.h"
+#include "hGui.h"
+#include "hEvents.h"
 
-#include "hWidget.h"
+//--------------------------------------------------------------
 
-//--------------------------------------------------------
+hSVumeter::hSVumeter(std::string name, hPanel * parent, int dispMode, int xx, int yy, int width, int height)
+	: hLabel(name, parent, dispMode, xx, yy, "")
+{
+	data->type = "vumeter";
+    setWidth(width);
+    setHeight(height);
+	data->value = 0.0;
+}
 
-class hLabel: public hWidget{
-public:
-    hLabel(std::string name, hPanel * parent, int dispMode, int xx, int yy, std::string s);
-
-	void setLabel(std::string s);
-	// Set the text to be displayed on the widget
-
-	std::string getLabel(void);
-
-	void setFixedMode(bool fixed);
-	// If true, uses the fixed font instead of the default font
-
-	void setWarningMode(bool warning);
-	// If true, uses the small font in red
+void hSVumeter::setValue(double val)
+{
+		 if(val < 0) val = 0;
+	else if(val > 1) val = 1;
 	
-	void setIndex(int index);
-	// The index of a label can be used as an additional  parameter
-	// Usefull when we have a few selectable labels that do similar things
+	data->value = val;
+}
 
-	void setMessage(std::string s);
-	// Set the message that will be send when the widget state change
+void hSVumeter::draw(void)
+{
+    hGui * gui = hGui::getInstance();
 
-	void bang(void);
-	// Send the message
+	if(data->value > 0) {
+		hSetHexColor(gui->vumeterColor);
+		int position = (h-2) * (1.0 - data->value);
+		hPaintRect(x, (y+1) + position, w, (h-2) - position);
+	}
 
-	//--------------------------------------------------------
+	if(data->selected) {
+        hSetHexColor(gui->vumeterBorderColor);
+        hFrameRect(x, y, w, h);
+	}
+    else if(visibleBorder){
+        hSetHexColor(gui->borderColor);
+        hFrameRect(x, y, w, h);
+    }
 	
-	// Methods called by event listeners:
-	
-    virtual void draw(void);
+}
 
-    void mousePressed(int xx, int yy, int btn);
-
-protected:
-    int textWidth;
-    bool fixedMode, warningMode;
-};
-
-//--------------------------------------------------------
-#endif // _HLABEL
+//--------------------------------------------------------------

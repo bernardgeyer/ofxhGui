@@ -25,31 +25,29 @@
  
  *****************************************************************************/
 
-#ifndef _HLABEL
-#define _HLABEL
+#ifndef _HWAVEFORM
+#define _HWAVEFORM
 
 #include "hWidget.h"
+#include <vector>
+using namespace std;
 
 //--------------------------------------------------------
 
-class hLabel: public hWidget{
+class hWaveform: public hWidget{
 public:
-    hLabel(std::string name, hPanel * parent, int dispMode, int xx, int yy, std::string s);
+    hWaveform(std::string name, hPanel * parent, int dispMode, int xx, int yy, int width, int height);
 
-	void setLabel(std::string s);
-	// Set the text to be displayed on the widget
-
-	std::string getLabel(void);
-
-	void setFixedMode(bool fixed);
-	// If true, uses the fixed font instead of the default font
-
-	void setWarningMode(bool warning);
-	// If true, uses the small font in red
+	void fillBuffer(short * source, int size, int index, int step);
+	// Fill the buffer with values
+	// source = wave buffer, size = it's size, index = where to start, step = how many samples by point
 	
+	void fillWavePoints(int * points, int size, int index);
+	// Fill the wavePoints with values (0 = nothing, 1 = start of waveform of waveset)
+	// source = array of point indexes, size = it's size, index = where to start in that array
+	void clearWavePoints(void);
+
 	void setIndex(int index);
-	// The index of a label can be used as an additional  parameter
-	// Usefull when we have a few selectable labels that do similar things
 
 	void setMessage(std::string s);
 	// Set the message that will be send when the widget state change
@@ -64,11 +62,15 @@ public:
     virtual void draw(void);
 
     void mousePressed(int xx, int yy, int btn);
-
-protected:
-    int textWidth;
-    bool fixedMode, warningMode;
+	void mouseDragged(int xx, int yy, int btn);
+	
+	//--------------------------------------------------------
+	vector<short int> buffer;
+	vector<char> wavePoints;
+	int centerPosition, ratio;
+	
+	int position;
 };
 
 //--------------------------------------------------------
-#endif // _HLABEL
+#endif // _HWAVEFORM

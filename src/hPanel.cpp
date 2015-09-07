@@ -46,6 +46,8 @@ hPanel::hPanel(std::string name, hPanel * parent, int dispMode, int xx, int yy, 
 	clickedWidget = NULL;
 	selectedRadio = NULL;
 //	selectedTextObj = NULL; // statically initialized
+	
+	include_scroll_bar = false;
 
 	maxX = x; 
 	maxY = y;
@@ -90,6 +92,11 @@ void hPanel::addWidgetToPanel(hWidget *widget)
 	data_buffer.push_back(widget->getData()); // Each widget has its default data block, so remember its adress
 }
 
+void hPanel::includeScrollBar(bool flag)
+{
+	include_scroll_bar = flag;
+}
+
 //--------------------------------------------------------------
 
 void hPanel::adaptPanelSize(int xx, int yy)
@@ -114,8 +121,21 @@ void hPanel::adaptPanelSize(int xx, int yy)
 
 void hPanel::draw(void)
 {
-	if(visibleBorder || visibleBackground) hWidget::draw();
+	int ww = w;
+	if(include_scroll_bar) ww -= hGui::getInstance()->scrollBarSize;
 	
+    if(visibleBackground){
+        if(backgroundColor != -1)
+			hSetHexColor(backgroundColor);
+        else hSetHexColor(hGui::getInstance()->backgroundColor);
+        hPaintRect(x, y, ww, h);
+    }
+	
+    if(visibleBorder){
+        hSetHexColor(hGui::getInstance()->borderColor);
+        hFrameRect(x, y, ww, h);
+    }
+		
     int size = widgets.size();
     for(int i = 0; i < size; ++i)
         widgets[i]->draw();

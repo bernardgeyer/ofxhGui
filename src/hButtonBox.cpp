@@ -44,7 +44,7 @@ hButtonBox::hButtonBox(std::string name, hPanel * parent, int dispMode, int xx, 
     yItems = 0;
 
     altLineCols = false;
-    // if true, draw fillColor or fillColor2 depending on odd or even line
+    // if true, draw fillColor or altFillColor depending on odd or even line
 
     // Default index display parameters:
     indexDisplayFlag = false; // false by default

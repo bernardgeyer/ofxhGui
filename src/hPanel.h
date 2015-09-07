@@ -65,6 +65,10 @@ public:
 	// Grow the size of the panel to fit the widgets inside of it
 	// x,y is the amount for right and bottom margins
 	
+	void includeScrollBar(bool flag);
+	// Has to be set to true if the panel includes an object with a right scrollbar sometimes drawn, sometimes not
+	// So the part of the pannel under the scrollbar will never be drawn.
+
 	//--------------------------------------------------------
 	
 	// Methods called by event listeners:
@@ -128,6 +132,8 @@ friend class hWidget;
 
 	hGuiData *selectedRadio;
 	static hWidget *selectedTextObj; // same value shared for all panels
+	
+	bool include_scroll_bar;
 };
 
 //--------------------------------------------------------

@@ -48,7 +48,7 @@ hTabBox::hTabBox(std::string name, hPanel * parent, int dispMode, int xx, int yy
 
     curTabSelectionPanel = NULL;
 
-    setSelectColor(gui->tabBoxSelColor);
+    setSelectColor(gui->tabBoxSelColor); // because we use the listbox draw routine
 
 	x += 2; // little correction
 }

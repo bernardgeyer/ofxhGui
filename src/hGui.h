@@ -32,7 +32,7 @@
 #include "hEvents.h"
 #include <map>
 
-#define HGUI_VERSION 1.04
+#define HGUI_VERSION 1.05
 
 class hWidget;
 class h2DSlider;
@@ -53,6 +53,7 @@ class hStatusBar;
 class hTabBox;
 class hTextArea;
 class hTextBox;
+class hSVumeter;
 
 class ofxXmlSettings;
 
@@ -113,7 +114,8 @@ public :
 	hTabBox *  addTabBox(std::string name, hPanel * parent, int dispMode, int xx, int yy, int width);
 	hTextArea *  addTextArea(std::string name, hPanel * parent, int dispMode, int xx, int yy, int width, int height);
 	hTextBox *  addTextBox(std::string name, hPanel * parent, int dispMode, int xx, int yy, int width, std::string s);
-	
+	hSVumeter *  addSVumeter(std::string name, hPanel * parent, int dispMode, int xx, int yy, int width, int height);
+
 	// ---------------------------------------------------------------
 
 	// Let our gui engine respond to draw, keyPressed, mousePressed, mouseDragged and mouseReleased events
@@ -146,6 +148,12 @@ public :
     void setDefaultFont(std::string fnt, int size);
 	// Set default font. Called when the GUI engine is created
 	
+    void setSmallFont(std::string fnt, int size);
+	// Set small font. Called when the GUI engine is created
+	
+    void setBigFont(std::string fnt, int size);
+	// Set big font. Called when the GUI engine is created
+	
     void setCounterFont(std::string cfnt, int csize);
 	// hCounterLabel widgets use a special font called counter font
 	// if a counter font is set, the counter uses it instead of the default font
@@ -171,16 +179,15 @@ public :
 	void setScrollHandleColor	(int scrollHandleColor);
 	void setScrollButtonColor	(int scrollButtonColor);
 	void setTextColor			(int textColor);
-	void setTextColor2			(int textColor2);
 	void setAlertTextColor		(int alertTextColor);
 	
 	void setDisableColor		(int disableColor);
 	void setEditTextColor		(int editTextColor);
-	void setEditTextColor2		(int editTextColor2);
 	void setEditBackColor		(int editBackColor);
 	void setCaretColor			(int caretColor);
 	
 	void setLabelSelColor		(int labelSelColor);
+	void setLabelSelTextColor	(int labelSelTextColor);
 	void setItemSelColor		(int itemSelColor);
 	void setItemSelTextColor	(int itemSelTextColor);
 	void setTabBoxSelColor		(int tabBoxSelColor);
@@ -195,9 +202,17 @@ public :
 	void setMessageBoxColor		(int messageBoxColor);
 	void setAlertColor			(int alertColor);
 	
+	void setWarningColor		(int warningColor);
+
+	void setVumeterBorderColor  (int vumeterBorderColor);
+	void setVumeterColor		(int vumeterColor);
+
 	void setDefaultColors(void);
 	// Reset the GUI to the default colors
 	
+	void setDarkColors(void);
+	// Example of changing the colors of the GUI
+
 	//--------------------------------------------------------
 	
 	// Methods called by event listeners:
@@ -240,15 +255,14 @@ public :
     int scrollHandleColor;
     int scrollButtonColor;
     int textColor;
-    int textColor2;
     int disableColor;
     int editTextColor;
-    int editTextColor2;
     int alertTextColor;
     int editBackColor;
     int caretColor;
 
     int labelSelColor;
+    int labelSelTextColor;
     int itemSelColor;
     int itemSelTextColor;
     int tabBoxSelColor;
@@ -262,6 +276,11 @@ public :
     int dialogColor;
     int messageBoxColor;
     int alertColor;
+	
+    int warningColor;
+
+	int vumeterBorderColor;
+	int vumeterColor;
 
     int tabHeight;
     int buttonHeight;
@@ -286,8 +305,8 @@ public :
     int defListBoxWidth;
     int defButtonWidth;
 
-    ofTrueTypeFont *font, *cfont, *afont, *ffont;
-    int textHeight, ctextHeight, atextHeight, ftextHeight, fcharWidth, fshrink;
+    ofTrueTypeFont *font,  *bfont,  *sfont, *cfont, *afont, *ffont;
+    int textHeight, btextHeight, stextHeight, ctextHeight, atextHeight, ftextHeight, fcharWidth, fshrink;
 
 	ofxXmlSettings * xml;
 

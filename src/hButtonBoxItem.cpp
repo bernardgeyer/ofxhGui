@@ -36,7 +36,7 @@ hButtonBoxItem::hButtonBoxItem(std::string name, hPanel * parent, int dispMode, 
 {
 	data->type = "button_box_item";
     lineNum = 0; //lineNum is the line# in the parent buttonBox
-    altLineCols = false; // if true, draw fillColor or fillColor2 depending on odd or even line
+    altLineCols = false; // if true, draw fillColor or altFillColor depending on odd or even line
 }
 
 //--------------------------------------------------------------
@@ -56,7 +56,7 @@ void hButtonBoxItem::draw(void)
         }
 
 		hPaintRect(x, y, w, h);
-		hSetHexColor(gui->textColor2);
+		hSetHexColor(gui->textColor);
 
     }
 	else {
@@ -65,11 +65,11 @@ void hButtonBoxItem::draw(void)
         else hSetHexColor(gui->itemSelColor);
 
 		hPaintRect(x, y, w, h);
+		hSetHexColor(gui->itemSelTextColor);
 	}
 
-    if(data->disabled == false)
-        hSetHexColor(gui->textColor);
-    else hSetHexColor(gui->disableColor);
+    if(data->disabled == true)
+		hSetHexColor(gui->disableColor);
 
     string displayStr;
     if(data->indexDisplayFlag == true) {
@@ -80,19 +80,19 @@ void hButtonBoxItem::draw(void)
 
         if(displayStr.size() > 0) {
             if(data->index >= 100) {
-				hDrawString(gui->font, displayStr, x+data->indexShift100+3, y+gui->textHeight+2);
+				hDrawString(gui->bfont, displayStr, x+data->indexShift100+3, y+gui->btextHeight+2);
             }
             else if(data->index >= 10){
-				hDrawString(gui->font, displayStr, x+data->indexShift10+3,  y+gui->textHeight+2);
+				hDrawString(gui->bfont, displayStr, x+data->indexShift10+3,  y+gui->btextHeight+2);
             }
             else {
-				hDrawString(gui->font, displayStr, x+data->indexShift1+3,   y+gui->textHeight+2);
+				hDrawString(gui->bfont, displayStr, x+data->indexShift1+3,   y+gui->btextHeight+2);
             }
         }
     } // <- if(indexDisplayFlag == true)
     else {
         if(data->label.size() > 0)
-            hDrawString(gui->font, data->label, x+3,   y+gui->textHeight+2);
+            hDrawString(gui->bfont, data->label, x+3,   y+gui->btextHeight+2);
     }
 
     hWidget::draw();

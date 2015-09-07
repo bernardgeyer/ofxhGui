@@ -1,5 +1,5 @@
-#ifndef _TEST_APP
-#define _TEST_APP
+#ifndef _OF_APP
+#define _OF_APP
 
 #include "ofMain.h"
 
@@ -11,7 +11,7 @@
 // Base object that contain virtual functions
 // Objects that inherit from hObject can use its event listeners for free
 
-class testApp : public ofBaseApp, public hObject {
+class ofApp : public ofBaseApp, public hObject {
 	public:
 		void setup();
 		void update();
@@ -65,9 +65,6 @@ class testApp : public ofBaseApp, public hObject {
 
 	// Custom listener:
     void setColors(hEventArgs& args);
-
-	// GUI color customization example:
-	void setDarkColors(void);
 };
 
 #endif

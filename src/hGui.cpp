@@ -69,6 +69,8 @@ void hGui::setup(std::string fnt,  int size)
 	// Set default font everywhere
 	// Fonts needed for special widgets have to be defined later
 	setDefaultFont(fnt, size);
+	setBigFont(fnt, size);
+	setSmallFont(fnt, size);
     setCounterFont(fnt, size);
     setAlertFont (fnt, size);
     setFixedFont (fnt, size, 0);
@@ -156,47 +158,31 @@ hTextArea *  hGui::addTextArea(std::string name, hPanel * parent, int dispMode, 
 hTextBox * hGui::addTextBox(std::string name, hPanel * parent, int dispMode, int x, int y, int width, std::string s)
 { hTextBox * wp =  new hTextBox(name, parent, dispMode, x, y, width, s);  addWidget(wp); return wp; }
 
+hSVumeter * hGui::addSVumeter(std::string name, hPanel * parent, int dispMode, int x, int y, int width, int height)
+{ hSVumeter * wp =  new hSVumeter(name, parent, dispMode, x, y, width, height);  addWidget(wp); return wp; }
+
 // ---------------------------------------------------------------
 //							ADD/REMOVE LISTENERS
 // ---------------------------------------------------------------
 
 void hGui::addListeners(void)
 {
-#if OF_VERSION_MINOR < 1 // OF_VERSION_MINOR exists only since OF_VERSION 7
-	ofAddListener(ofEvents.draw, this, &hGui::draw);
-	ofAddListener(ofEvents.keyPressed, this, &hGui::keyPressed);
-
-	ofAddListener(ofEvents.mousePressed, this, &hGui::mousePressed);
-	ofAddListener(ofEvents.mouseDragged, this, &hGui::mouseDragged);
-	ofAddListener(ofEvents.mouseReleased, this, &hGui::mouseReleased);
-#else
 	ofAddListener(ofEvents().draw, this, &hGui::draw);
 	ofAddListener(ofEvents().keyPressed, this, &hGui::keyPressed);
 	
 	ofAddListener(ofEvents().mousePressed, this, &hGui::mousePressed);
 	ofAddListener(ofEvents().mouseDragged, this, &hGui::mouseDragged);
 	ofAddListener(ofEvents().mouseReleased, this, &hGui::mouseReleased);
-	
-#endif
 }
 
 void hGui::removeListeners(void)
 {
-#if OF_VERSION_MINOR < 1
-	ofRemoveListener(ofEvents.draw, this, &hGui::draw);
-	ofRemoveListener(ofEvents.keyPressed, this, &hGui::keyPressed);
-
-	ofRemoveListener(ofEvents.mousePressed, this, &hGui::mousePressed);
-	ofRemoveListener(ofEvents.mouseDragged, this, &hGui::mouseDragged);
-	ofRemoveListener(ofEvents.mouseReleased, this, &hGui::mouseReleased);
-#else
 	ofRemoveListener(ofEvents().draw, this, &hGui::draw);
 	ofRemoveListener(ofEvents().keyPressed, this, &hGui::keyPressed);
 	
 	ofRemoveListener(ofEvents().mousePressed, this, &hGui::mousePressed);
 	ofRemoveListener(ofEvents().mouseDragged, this, &hGui::mouseDragged);
 	ofRemoveListener(ofEvents().mouseReleased, this, &hGui::mouseReleased);
-#endif
 }
 
 // ---------------------------------------------------------------
@@ -349,13 +335,32 @@ void hGui::hide(void)
 // prefix 'f' means fixed font (used for text editing)
 // fshrink factor: text editing looks better with smaller space between characters
 
+// loadFont(string filename, int fontsize, bool _bAntiAliased=true, bool _bFullCharacterSet=false, bool makeContours=false, float simplifyAmt=0.3, int dpi=0);
 
 void hGui::setDefaultFont(std::string fnt, int size)
 {
     if(fnt.size() > 0) {
         font = new ofTrueTypeFont;
-        font->loadFont(fnt, size, true, true);
+        font->loadFont(fnt, size, true, true, false, 0);
         textHeight = font->getLineHeight();
+    }
+}
+
+void hGui::setBigFont(std::string bfnt, int size)
+{
+    if(bfnt.size() > 0) {
+        bfont = new ofTrueTypeFont;
+        bfont->loadFont(bfnt, size, true, true, false, 0);
+        btextHeight = bfont->getLineHeight();
+    }
+}
+
+void hGui::setSmallFont(std::string sfnt, int size)
+{
+    if(sfnt.size() > 0) {
+        sfont = new ofTrueTypeFont;
+        sfont->loadFont(sfnt, size, true, true, false, 0);
+        stextHeight = sfont->getLineHeight();
     }
 }
 
@@ -363,7 +368,7 @@ void hGui::setCounterFont(std::string cfnt, int csize)
 {
     if(cfnt.size() > 0) {
         cfont = new ofTrueTypeFont;
-        cfont->loadFont(cfnt, csize, true, true);
+        cfont->loadFont(cfnt, csize, true, true, false, 0);
         ctextHeight = cfont->getLineHeight();
     }
 }
@@ -372,7 +377,7 @@ void hGui::setAlertFont(std::string afnt, int asize)
 {
     if(afnt.size() > 0) {
         afont = new ofTrueTypeFont;
-        afont->loadFont(afnt, asize, true, true);
+        afont->loadFont(afnt, asize, true, true, false, 0);
         atextHeight = afont->getLineHeight();
     }
 }
@@ -382,7 +387,7 @@ void hGui::setFixedFont(std::string ffnt, int fsize, int fshrk)
     if(ffnt.size() > 0) {
         fshrink = fshrk;
         ffont = new ofTrueTypeFont;
-        ffont->loadFont(ffnt, fsize, true, true);
+        ffont->loadFont(ffnt, fsize, true, true, false, 0);
         ftextHeight = ffont->getLineHeight();
         fcharWidth  = ffont->stringWidth("0") - fshrink;
     }
@@ -401,16 +406,15 @@ void hGui::setButtonShadowColor	(int buttonShadowColor)	{this->buttonShadowColor
 void hGui::setScrollHandleColor	(int scrollHandleColor)	{this->scrollHandleColor= scrollHandleColor;}
 void hGui::setScrollButtonColor	(int scrollButtonColor)	{this->scrollButtonColor= scrollButtonColor;}
 void hGui::setTextColor			(int textColor)			{this->textColor		= textColor;}
-void hGui::setTextColor2		(int textColor2)		{this->textColor2		= textColor2;}
 void hGui::setAlertTextColor	(int alertTextColor)	{this->alertTextColor	= alertTextColor;}
 
 void hGui::setDisableColor		(int disableColor)		{this->disableColor		= disableColor;}
 void hGui::setEditTextColor		(int editTextColor)		{this->editTextColor	= editTextColor;}
-void hGui::setEditTextColor2	(int editTextColor2)	{this->editTextColor2	= editTextColor2;}
 void hGui::setEditBackColor		(int editBackColor)		{this->editBackColor	= editBackColor;}
 void hGui::setCaretColor		(int caretColor)		{this->caretColor		= caretColor;}
 
 void hGui::setLabelSelColor		(int labelSelColor)		{this->labelSelColor	= labelSelColor;}
+void hGui::setLabelSelTextColor	(int labelSelTextColor)	{this->labelSelTextColor= labelSelTextColor;}
 void hGui::setItemSelColor		(int itemSelColor)		{this->itemSelColor		= itemSelColor;}
 void hGui::setItemSelTextColor	(int itemSelTextColor)	{this->itemSelTextColor	= itemSelTextColor;}
 void hGui::setTabBoxSelColor	(int tabBoxSelColor)	{this->tabBoxSelColor	= tabBoxSelColor;}
@@ -425,9 +429,14 @@ void hGui::setDialogColor		(int dialogColor)		{this->dialogColor		= dialogColor;
 void hGui::setMessageBoxColor	(int messageBoxColor)	{this->messageBoxColor	= messageBoxColor;}
 void hGui::setAlertColor		(int alertColor)		{this->alertColor		= alertColor;}
 
+void hGui::setWarningColor		(int warningColor)		{this->warningColor		= warningColor;}
+
+void hGui::setVumeterBorderColor(int vumeterBorderColor){this->vumeterBorderColor= vumeterBorderColor;}
+void hGui::setVumeterColor		(int vumeterColor)		{this->vumeterColor		= vumeterColor;}
+
 void hGui::setDefaultColors(void)
 {
-	setBackgroundColor	(0xFFFFFF);
+	setBackgroundColor	(0xF8F8F8);
 	setBorderColor		(0x000000);
 	setFillColor		(0xE5E5E5);
 	setAltFillColor		(0xDDFFEE);
@@ -436,19 +445,18 @@ void hGui::setDefaultColors(void)
 	setScrollHandleColor(0xAAAAAA);
 	setScrollButtonColor(0x333333);
 	setTextColor		(0x000000);
-	setTextColor2		(0xFFFFFF);
 	setAlertTextColor	(0x111111);
 
 	setDisableColor		(0x999999);
 	setEditTextColor	(0x113388);
-	setEditTextColor2	(0x113388);
 	setEditBackColor	(0xDDEEFF);
 	setCaretColor		(0x000000);
 
-	setLabelSelColor	(0x0077FF);
-	setItemSelColor		(0xAAAAAA);
+  	setLabelSelColor	(0xBBBBFF);
+	setLabelSelTextColor(0x333333);
+	setItemSelColor		(0x77FFAA);
 	setItemSelTextColor	(0x000000);
-	setTabBoxSelColor	(0x77AAFF);
+	setTabBoxSelColor	(0xBBBBFF);
 	setButtonBoxSelColor(0x77FFAA);
 
 	setCheckBoxColor	(0x77FFAA);
@@ -459,6 +467,55 @@ void hGui::setDefaultColors(void)
 	setDialogColor		(0xE5E5E5);
 	setMessageBoxColor	(0x77FFAA);
 	setAlertColor		(0xFF7777);
+	
+	setWarningColor		(0xFF4400);
+	
+	setVumeterBorderColor(0xFF4400);
+	setVumeterColor		(0X00FF00);
+}
+
+void hGui::setDarkColors(void)
+{
+//	setBackgroundColor	(0x333333);
+	setBackgroundColor	(0x888888);
+	setBorderColor		(0xCCCCCC);
+//	setFillColor		(0x555555);
+	setFillColor		(0x666666);
+	setAltFillColor		(0x557766);
+	setButtonShadowColor(0x999999);
+	
+	setScrollHandleColor(0xDDDDDD);
+	setScrollButtonColor(0xDDDDDD);
+	setTextColor		(0xFFFFFF);
+	setAlertTextColor	(0xCCCCCC);
+	
+	setDisableColor		(0x999999);
+	setEditTextColor	(0x113388);
+	setEditBackColor	(0xCCDDEE);
+	setCaretColor		(0x000000);
+	
+	setLabelSelColor	(0xBBBBFF);
+	setLabelSelTextColor(0x333333);
+
+	setItemSelColor		(0x77FFAA);
+	setItemSelTextColor (0x333333);
+	setTabBoxSelColor	(0xBBBBFF);
+
+	setButtonBoxSelColor(0x44CC77);
+	
+	setCheckBoxColor	(0x44CC77);
+	setSliderColor		(0x999999);
+	setTwoDSliderColor	(0x66EE99);
+	setCounterColor		(0x66EE99);
+	
+	setDialogColor		(0xE5E5E5);
+	setMessageBoxColor	(0x77FFAA);
+	setAlertColor		(0xFF7777);
+	
+	setWarningColor		(0xFFFF00);
+	
+	setVumeterBorderColor(0xFFFF00);
+	setVumeterColor		(0X00FF00);
 }
 
 // ---------------------------------------------------------------

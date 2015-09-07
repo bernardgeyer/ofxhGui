@@ -21,5 +21,6 @@
 #include "hTabBox.h"
 #include "hTextArea.h"
 #include "hTextBox.h"
+#include "hSVumeter.h"
 
 #endif // _HGUI_ALL

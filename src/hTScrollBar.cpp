@@ -86,15 +86,11 @@ void hTScrollBar::draw(void)
     int numData  = linkedTextArea->lines.size();
 
     if((numData - numItems) > 0) {
-        hGui * gui = hGui::getInstance();
-
+		hGui * gui = hGui::getInstance();
+		
         int hh  = gui->scrollHandleHeight;
         int yy  = (y + position) - (hh/2);
-/*
-#if defined( __WIN32__ ) || defined( _WIN32 )
-        hh-=1;
-#endif
-*/
+
         hSetHexColor(gui->fillColor);
         hPaintRect(x+1, y, w-2, h);
 
@@ -113,7 +109,7 @@ void hTScrollBar::draw(void)
         // Disable the drawing of the other small widgets
         linkedTextArea->incButton->setEnabled(false);
         linkedTextArea->decButton->setEnabled(false);
-    }
+	}
 }
 
 //--------------------------------------------------------------

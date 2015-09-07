@@ -187,9 +187,11 @@ public:
 	
     virtual void draw(void);
 	
+
     virtual void mousePressed(int xx, int yy, int btn){}
     virtual void mouseReleased(int xx, int yy, int btn){}
     virtual void mouseDragged(int xx, int yy, int btn){}
+	// Does nothing if not implemented in that widget
 
 	//--------------------------------------------------------
 	
@@ -220,8 +222,11 @@ public:
     hGuiData * getData(void);
 	// Return a pointer to the data of the widget
 
+	
 	virtual void saveSettings(ofxXmlSettings * xml){}
 	// Save the state of the widgets that implement this method to the open xml file
+	// Does nothing if not implemented in that widget
+
 	
 	//--------------------------------------------------------
 

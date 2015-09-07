@@ -25,50 +25,25 @@
  
  *****************************************************************************/
 
-#ifndef _HLABEL
-#define _HLABEL
+#ifndef _HVUMETER
+#define _HVUMETER
 
-#include "hWidget.h"
+#include "hLabel.h"
 
 //--------------------------------------------------------
 
-class hLabel: public hWidget{
+class hSVumeter: public hLabel{
+// This is a special kind of vumeter (very very simple) that can in the same time be used to select an audio parameter
+// When selected, the background changes its color.
+// Accepted values are between 0 and 1
+	
 public:
-    hLabel(std::string name, hPanel * parent, int dispMode, int xx, int yy, std::string s);
+    hSVumeter(std::string name, hPanel * parent, int dispMode, int xx, int yy, int width, int height);
 
-	void setLabel(std::string s);
-	// Set the text to be displayed on the widget
-
-	std::string getLabel(void);
-
-	void setFixedMode(bool fixed);
-	// If true, uses the fixed font instead of the default font
-
-	void setWarningMode(bool warning);
-	// If true, uses the small font in red
-	
-	void setIndex(int index);
-	// The index of a label can be used as an additional  parameter
-	// Usefull when we have a few selectable labels that do similar things
-
-	void setMessage(std::string s);
-	// Set the message that will be send when the widget state change
-
-	void bang(void);
-	// Send the message
-
-	//--------------------------------------------------------
-	
-	// Methods called by event listeners:
+	void setValue(double val);
 	
     virtual void draw(void);
-
-    void mousePressed(int xx, int yy, int btn);
-
-protected:
-    int textWidth;
-    bool fixedMode, warningMode;
 };
 
 //--------------------------------------------------------
-#endif // _HLABEL
+#endif // _HVUMETER

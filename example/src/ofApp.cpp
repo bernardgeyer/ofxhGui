@@ -25,7 +25,7 @@
  
  *****************************************************************************/
 
-#include "testApp.h"
+#include "ofApp.h"
 
 #include "hGui_all.h"
 // hGui stands for "Harfang Graphical User Interface"
@@ -48,23 +48,24 @@
 // can give you more informations too
 
 
-// This file (testApp.cpp) can be used as a little tutorial for hGui
+// This file (ofApp.cpp) can be used as a little tutorial for hGui
 
 //--------------------------------------------------------------
 
-void testApp::setup()
+void ofApp::setup()
 {
 	string title = "ofxhGuiExample1 - ";
 	title += "ofxhGui ";
 	title += ofToString(HGUI_VERSION);
 	
 	title += " / openFrameworks ";
-	title += ofToString(OF_VERSION);
-
-#if OF_VERSION > 6
+	title += ofToString(OF_VERSION_MAJOR); // no more existing
+	
 	title += ofToString(".");
 	title += ofToString(OF_VERSION_MINOR);
-#endif
+	
+	title += ofToString(".");
+	title += ofToString(OF_VERSION_PATCH);
 	
 	ofSetWindowTitle(title);
 
@@ -78,12 +79,8 @@ void testApp::setup()
 	// void setup(std::string fnt, int size)
 	// gui->setup parameters: the default font used by the gui
 
-#if OF_VERSION < 7
     gui->setup("fonts/frabk.ttf", 9); // In each version of OF there is another font that looks better ...
-#else
-    gui->setup("fonts/DIN.otf", 9);  // ... but test yourself which one is better for you
-#endif
-	// Anyway, fonts seems to look better on OF 7
+//  gui->setup("fonts/futura_book.otf", 9);  // ... but test yourself which one is better for you
 
 	// The font sizes are optimal for the fonts I choosed
 	// Maybe they have to be modified when using other fonts
@@ -357,12 +354,12 @@ void testApp::setup()
 	// Add an object to the event engine the object, so it can receive events
 	// void hEvents::addObject(std::string objectName, hObject * obj)
 
-	events->addObject("testApp", this);
-	// Here we use testApp as object
-	// This is possible because testApp inherits from hObject
-	// Look at testApp.h to see the implementation
+	events->addObject("ofApp", this);
+	// Here we use ofApp as object
+	// This is possible because ofApp inherits from hObject
+	// Look at ofApp.h to see the implementation
 
-	// Maybe its better to create other objects instead of using testApp
+	// Maybe its better to create other objects instead of using ofApp
 	// to respond to the messages, in order to avoid conflicts caused
 	// by multiple inheritance
 	// This permits also to have the same message for different objects
@@ -383,19 +380,19 @@ void testApp::setup()
 
 	// Set the message that the buttons will send when pressed
 	// The form of the message is "object.method"
-	button1->setMessage("testApp.start");
-	button2->setMessage("testApp.stop");
-	button3->setMessage("testApp.clear");
+	button1->setMessage("ofApp.start");
+	button2->setMessage("ofApp.stop");
+	button3->setMessage("ofApp.clear");
 
 	// This works because the start, stop and clear listeners are defined in hEvent.cpp
-	// and redefined for testApp (see below on the next methods)
+	// and redefined for ofApp (see below on the next methods)
 
 	// You can also create your own listeners anywhere
 	// (I will show that later)
 
 	// With this test, the start, stop and clear methods will just modify a string, so we need to initialize a font for it
 	font = new ofTrueTypeFont;
-	font->loadFont("fonts/AvantGarde-Book.ttf", 16, true, true);
+	font->loadFont("fonts/futura_book.otf", 16, true, true);
 	myString = "";
 
 	//----------------------------------------
@@ -429,9 +426,9 @@ void testApp::setup()
 	// Here we use this feature to indicate that the widgets are part of a virtual group
 	// This is specially true when the widgets are used as radio buttons
 
-	checkbox2->setMessage("testApp.selectItem");
-	checkbox3->setMessage("testApp.selectItem");
-	checkbox4->setMessage("testApp.selectItem");
+	checkbox2->setMessage("ofApp.selectItem");
+	checkbox3->setMessage("ofApp.selectItem");
+	checkbox4->setMessage("ofApp.selectItem");
 
 	checkbox2->setIndex(1);
 	checkbox3->setIndex(2);
@@ -442,8 +439,8 @@ void testApp::setup()
 	// We can also set the same message to the sliders to different sliders
 	// (here, the sliders that control the color)
 
-	slider4->setMessage("testApp.setValueToItem");
-	slider5->setMessage("testApp.setValueToItem");
+	slider4->setMessage("ofApp.setValueToItem");
+	slider5->setMessage("ofApp.setValueToItem");
 	slider4->setIndex(1);
 	slider5->setIndex(2);
 
@@ -451,7 +448,7 @@ void testApp::setup()
 
 	// hTextBox * addTextBox(std::string name, hPanel * parent, int dispMode, int xx, int yy, int width, string s)
 	hTextBox * textBox1 = gui->addTextBox("textBox1", panel2,  HGUI_RIGHT, gui->margin2, 0, 100, "editable textbox");
-	textBox1->setMessage("testApp.setLabel");
+	textBox1->setMessage("ofApp.setLabel");
 
 	// The message of the textBox will be sent when the user types <return>
 
@@ -466,11 +463,8 @@ void testApp::setup()
 	// void hGui::setFixedFont(std::string ffnt, int fsize, int fshrk)
 	// fshrk = shrink factor: text editing looks better with smaller space between characters
 
-#if OF_VERSION < 7
-    gui->setFixedFont("fonts/mono.ttf", 8, 4);
-#else
-    gui->setFixedFont("fonts/lmmonolt10-bold.otf", 10, 0);
-#endif
+//  gui->setFixedFont("fonts/mono.ttf", 8, 4);
+    gui->setFixedFont("fonts/Inconsolata.otf", 11, 0);
 
 	// hTextArea *  addTextArea(std::string name, hPanel * parent, int dispMode, int xx, int yy, int width, int height, std::string s);
 	hTextArea * textArea1 =
@@ -495,8 +489,8 @@ void testApp::setup()
 		// An additional message2 can be set to perform another action when the text is cleared
 
 	textArea1->addTools(60, 1, "send", "clear");
-	textArea1->setMessage("testApp.setText");
-	textArea1->setMessage2("testApp.clearText");
+	textArea1->setMessage("ofApp.setText");
+	textArea1->setMessage2("ofApp.clearText");
 
 	// WARNING !!!!
 	// After hTextArea, HGUI_RIGHT and HGUI_BOTTOM does not work correctly
@@ -523,7 +517,7 @@ void testApp::setup()
 	listBox1->addData("seven");
 	listBox1->addData("eight");
 
-	listBox1->setMessage("testApp.setLabel");
+	listBox1->setMessage("ofApp.setLabel");
 
 
 	listBox1->selectElement(1); // preselect an element (first element is 1)
@@ -532,7 +526,7 @@ void testApp::setup()
 	// After hListBox, HGUI_RIGHT and HGUI_BOTTOM does not work correctly
 	// Use HGUI_NEXT_ROW and HGUI_NEXT_COL instead
 
-//  hButtonBox(std::string name, hPanel * parent, int dispMode, int xx, int yy, int item_width, int item_height);
+//	gui->setBigFont("fonts/verdana.ttf", 9);
 	hButtonBox * buttonBox1 = gui->addButtonBox("buttonBox1", panel3, HGUI_NEXT_ROW, gui->margin2, gui->margin2, 32, 20);
 
 	buttonBox1->displayIndexes(true);
@@ -541,8 +535,8 @@ void testApp::setup()
 
 	buttonBox1->addItems(6, 4);
 	buttonBox1->selectItem(1); // preselect an item (first item is 1)
-	buttonBox1->setMessage("testApp.itemSetSelected");
-
+	buttonBox1->setMessage("ofApp.itemSetSelected");
+	
 	// -------------------------------------------------------------------------------------
 
 	// Create some subpanels just for fun :
@@ -622,8 +616,8 @@ void testApp::setup()
 		gui->addTextArea("textArea2", mainPanel2, HGUI_NEXT_ROW, gui->margin1, 0, 392, 200);
 
 	textArea2->addTools(100, 1, "send", "clear");
-	textArea2->setMessage("testApp.setText");
-	textArea2->setMessage2("testApp.clearText");
+	textArea2->setMessage("ofApp.setText");
+	textArea2->setMessage2("ofApp.clearText");
 
 	// WARNING !!!!
 	// After hTextArea, HGUI_RIGHT and HGUI_BOTTOM does not work correctly
@@ -637,10 +631,11 @@ void testApp::setup()
 
 	events->sendEvent("textArea2.clearText");
 	events->sendEvent("textArea2.setText", "All human beings are born free and equal in dignity and rights. They are endowed with reason and conscience and should act towards one another in a spirit of brotherhood.\n\n");
-	events->sendEvent("textArea2.addText", "Tous les Ítres humains naissent libres et Ègaux en dignitÈ et en droits. Ils sont douÈs de raison et de conscience et doivent agir les uns envers les autres dans un esprit de fraternitÈ.\n\n");
-	events->sendEvent("textArea2.addText", "Alle Menschen sind frei und gleich an W¸rde und Rechten geboren. Sie sind mit Vernunft und Gewissen begabt und sollen einander im Geist der Br¸derlichkeit begegnen.\n\n");
-	events->sendEvent("textArea2.addText", "Alle mennesker er f¯dt frie og lige i vÊrdighed og rettigheder. De er udstyret med fornuft og samvittighed, og de b¯r handle mod hverandre i en broderskabets Ând.\n\n");
-
+/*
+	events->sendEvent("textArea2.addText", "Tous les êtres humains naissent libres et égaux en dignité et en droits. Ils sont doués de raison et de conscience et doivent agir les uns envers les autres dans un esprit de fraternité.\n\n");
+	events->sendEvent("textArea2.addText", "Alle Menschen sind frei und gleich an Würde und Rechten geboren. Sie sind mit Vernunft und Gewissen begabt und sollen einander im Geist der Brüderlichkeit begegnen.\n\n");
+	events->sendEvent("textArea2.addText", "Alle mennesker er fdt frie og lige i vÊrdighed og rettigheder. De er udstyret med fornuft og samvittighed, og de b¬Ør handle mod hverandre i en broderskabets nd.\n\n");
+*/
 	// -------------------------------------------------------------------------------------
 
 	// Create a 2D slider in mainPanel2:
@@ -651,7 +646,7 @@ void testApp::setup()
 	h2DSlider * my2Dslider = gui->add2DSlider("my2Dslider", mainPanel2,  HGUI_BOTTOM, 0, 0, 152);
 
 	my2Dslider->setRange(0, 1); // default is -1, 1
-	my2Dslider->setMessage("testApp.setXY");
+	my2Dslider->setMessage("ofApp.setXY");
 
 	// -------------------------------------------------------------------------------------
 
@@ -659,24 +654,24 @@ void testApp::setup()
 
 	hPanel * subPanel = gui->addPanel("subPanel", mainPanel2, HGUI_RIGHT, gui->margin2, 0, 241, 152, true);
 
-	// Create 2 buttons that will send their messages to a new listener created in testApp:
+	// Create 2 buttons that will send their messages to a new listener created in ofApp:
 
 	hButton * actionButton1 = gui->addButton("actionButton1", subPanel, HGUI_RIGHT, gui->margin2, gui->margin2, 104, "set dark colors");
 	hButton * actionButton2 = gui->addButton("actionButton2", subPanel, HGUI_RIGHT, gui->margin2, 0, 104, "set default colors");
 
 	// Create a new event listener using the method defined in this file :
-	events->addListener("setColors", this, &testApp::setColors);
+	events->addListener("setColors", this, &ofApp::setColors);
 	// "setColors" is the name of the method to call
 	// 'this' is the object
-	// '&testApp::setColors' is the method
+	// '&ofApp::setColors' is the method
 
-	actionButton1->setMessage("testApp.setColors"); // remember the format
-	actionButton2->setMessage("testApp.setColors");
+	actionButton1->setMessage("ofApp.setColors"); // remember the format
+	actionButton2->setMessage("ofApp.setColors");
 
 	actionButton1->setIndex(1); // the index is used as parameter by the listener
 	actionButton2->setIndex(2);
 
-	// Now you can look at void testApp::setColors(hEventArgs& args)
+	// Now you can look at void ofApp::setColors(hEventArgs& args)
 	// to see how it works
 
 	// -------------------------------------------------------------------------------------
@@ -697,7 +692,7 @@ void testApp::setup()
 
 	// Set the same message to all sliders of the slider box
 	// The change the indexes of the sliders, use SliderBox::setStartIndex
-	sliderBox1->setMessage("testApp.setValueToItem");
+	sliderBox1->setMessage("ofApp.setValueToItem");
 
 	// Create a better contrast by changing the background color of the sliders:
 	sliderBox1->setBackgroundColor(0xD7D7D7);
@@ -754,8 +749,8 @@ void testApp::setup()
 		gui->addAlert("alertDialog", NULL, HGUI_ABSOLUTE_POSITION, msgBoxX-19, msgBoxY+18, msgBoxXSize, msgBoxYSize);
 	alertDialog->setTitle("make your choice");
 
-	alertDialog->setMessage("testApp.answerDialog");  // Set the message to send when the user answer yes (sends also the value 1)
-	alertDialog->setMessage2("testApp.answerDialog"); // Set the message to send when the user answer no  (sends also the value 2)
+	alertDialog->setMessage("ofApp.answerDialog");  // Set the message to send when the user answer yes (sends also the value 1)
+	alertDialog->setMessage2("ofApp.answerDialog"); // Set the message to send when the user answer no  (sends also the value 2)
 
 	// -------------------------------------------------------------------------------------
 
@@ -764,8 +759,8 @@ void testApp::setup()
 	hButton * actionButton3 = gui->addButton("actionButton3", subPanel, HGUI_NEXT_ROW, gui->margin2, gui->margin2, 104, "open message");
 	hButton * actionButton4 = gui->addButton("actionButton4", subPanel, HGUI_RIGHT, gui->margin2, 0, 104, "open alert");
 
-	actionButton3->setMessage("testApp.openItem");
-	actionButton4->setMessage("testApp.openItem");
+	actionButton3->setMessage("ofApp.openItem");
+	actionButton4->setMessage("ofApp.openItem");
 
 	actionButton3->setIndex(1); // the index is used as parameter by the openItem listener
 	actionButton4->setIndex(2);
@@ -779,7 +774,7 @@ void testApp::setup()
 
 // -------------------------------------------------------------------------------------
 
-void testApp::exit()
+void ofApp::exit()
 {
 // In this example, we save the state of our widgets when the application exits
 
@@ -797,31 +792,31 @@ void testApp::exit()
 //					(using prototypes defined in hObject.h)
 //--------------------------------------------------------------
 
-void testApp::start(void){
+void ofApp::start(void){
 	myString = "start";
 }
 
-void testApp::stop(void){
+void ofApp::stop(void){
 	myString = "stop";
 }
 
-void testApp::clear(void){
+void ofApp::clear(void){
 	myString = "";
 }
 
 //--------------------------------------------------------------
 
-void testApp::setValue(double val)
+void ofApp::setValue(double val)
 {
 	myString = ofToString(val);
 }
 
-void testApp::setValueToItem(double val, int index)
+void ofApp::setValueToItem(double val, int index)
 {
 	myString = ofToString(index) + " =>" + ofToString(val);
 }
 
-void testApp::setXY(double x, double y)
+void ofApp::setXY(double x, double y)
 {
 	myString = ofToString(x) + "\n" + ofToString(y);
 	xPct = x; yPct = y;
@@ -829,12 +824,12 @@ void testApp::setXY(double x, double y)
 
 //--------------------------------------------------------------
 
-void testApp::selectItem(int item)
+void ofApp::selectItem(int item)
 {
 	myString = ofToString(item);
 }
 
-void testApp::itemSetSelected(int item, bool flag)
+void ofApp::itemSetSelected(int item, bool flag)
 {
 	if(flag == true)
 		 myString = ofToString(item) + "(true)";
@@ -843,31 +838,31 @@ void testApp::itemSetSelected(int item, bool flag)
 
 //--------------------------------------------------------------
 
-void testApp::setLabel(std::string label)
+void ofApp::setLabel(std::string label)
 {
 	myString = label;
 }
 
-void testApp::setText(std::string text)
+void ofApp::setText(std::string text)
 {
 	myString = text; // Not very clever processing...
 	// it's just a test
 }
 
-void testApp::addText(std::string text)
+void ofApp::addText(std::string text)
 {
 	myString += text; // another possibility, add instead of set text
 	// (you have to change setMessage to "addText" to work)
 }
 
-void testApp::clearText(void)
+void ofApp::clearText(void)
 {
 	myString.clear();
 }
 
 //--------------------------------------------------------------
 
-void testApp::openItem(int item)
+void ofApp::openItem(int item)
 // Open dialogs:
 // #1 is a message box
 // #2 is an alert
@@ -893,7 +888,7 @@ void testApp::openItem(int item)
 	}
 }
 
-void testApp::answerDialog(int buttonID)
+void ofApp::answerDialog(int buttonID)
 // Called to process the answer of the alert dialog
 {
 	switch(buttonID) {
@@ -906,7 +901,7 @@ void testApp::answerDialog(int buttonID)
 					// Example of custom listener
 //--------------------------------------------------------------
 
-void testApp::setColors(hEventArgs& args)
+void ofApp::setColors(hEventArgs& args)
 // This fonction modify the set of colors used by the widgets
 // It show how to respond to custom events
 // and also how to customize the apparence of the interface
@@ -935,19 +930,19 @@ void testApp::setColors(hEventArgs& args)
 		hObject * object = events->getObject(args.objectName);
 		if(object == this) {
 			// (we could eventually create listeners that answer to messages sent to any object (or none)
-			// but here we want only to answer messages that belong to 'testApp'
+			// but here we want only to answer messages that belong to 'ofApp'
 
 			hGui * gui = hGui::getInstance(); // We need access to our gui engine
 
 			switch((int)args.values[0]) { // Create a different action, depending on the parameter
 				case 1:
-					cout << "setColors (1)" << endl;
-					setDarkColors();
+					// cout << "setColors (1)" << endl;
+					gui->setDarkColors();  // <- look in the definition in hGui.cpp to see how to change colors
 					break;
 
 				case 2:
-					cout << "setColors (2)" << endl;
-					gui->setDefaultColors();
+					// cout << "setColors (2)" << endl;
+                    gui->setDefaultColors();  // <- look in the definition in hGui.cpp to see how to change colors
 				break;
 			}
 		}
@@ -956,49 +951,7 @@ void testApp::setColors(hEventArgs& args)
 
 //--------------------------------------------------------------
 
-void testApp::setDarkColors(void)
-// Example of changing the colors of the GUI
-{
-
-	hGui * gui = hGui::getInstance();
-
-	gui->setBackgroundColor	(0x333333);
-	gui->setBorderColor		(0xCCCCCC);
-	gui->setFillColor		(0x555555);
-	gui->setAltFillColor	(0x557766);
-	gui->setButtonShadowColor(0x999999);
-
-	gui->setScrollHandleColor(0xDDDDDD);
-	gui->setScrollButtonColor(0xDDDDDD);
-	gui->setTextColor		(0xFFFFFF);
-	gui->setTextColor2		(0x000000);
-	gui->setAlertTextColor	(0xCCCCCC);
-
-	gui->setDisableColor	(0x999999);
-	gui->setEditTextColor	(0x113388);
-	gui->setEditTextColor2	(0x113388);
-	gui->setEditBackColor	(0xCCDDEE);
-	gui->setCaretColor		(0x000000);
-
-	gui->setLabelSelColor	(0xBBBBFF);
-	gui->setItemSelColor	(0xBBBBBB);
-	gui->setItemSelTextColor(0x333333);
-	gui->setTabBoxSelColor	(0x4477CC);
-	gui->setButtonBoxSelColor(0x44CC77);
-
-	gui->setCheckBoxColor	(0x44CC77);
-	gui->setSliderColor		(0x999999);
-	gui->setTwoDSliderColor	(0x33BB66);
-	gui->setCounterColor	(0x33BB66);
-
-	gui->setDialogColor		(0xE5E5E5);
-	gui->setMessageBoxColor	(0x77FFAA);
-	gui->setAlertColor		(0xFF7777);
-}
-
-//--------------------------------------------------------------
-
-void testApp::update()
+void ofApp::update()
 {
 // The variable curTime is controlled by the counterLabel widget:
 	curTime = ofGetElapsedTimeMillis();
@@ -1013,7 +966,7 @@ void testApp::update()
 
 //--------------------------------------------------------------
 
-void testApp::draw()
+void ofApp::draw()
 {
 // the following variables are controlled by widgets:
 // backColor, drawFlag, xPct, yPct, myString
@@ -1035,11 +988,7 @@ void testApp::draw()
 	float origy = 200;
 	float angle = 0;
 
-#if OF_VERSION < 7
-	ofSetColor(0xa16bca);
-#else
 	ofSetHexColor(0xa16bca);
-#endif
 
 	ofBeginShape();
 	for (int i = 0; i < nStarPts; i++){
@@ -1065,38 +1014,38 @@ void testApp::draw()
 }
 
 //--------------------------------------------------------------
-void testApp::keyPressed(int key){
+void ofApp::keyPressed(int key){
 
 }
 
 //--------------------------------------------------------------
-void testApp::keyReleased(int key){
+void ofApp::keyReleased(int key){
 
 }
 
 //--------------------------------------------------------------
-void testApp::mouseMoved(int x, int y ){
+void ofApp::mouseMoved(int x, int y ){
 
 }
 
 //--------------------------------------------------------------
-void testApp::mouseDragged(int x, int y, int button){
+void ofApp::mouseDragged(int x, int y, int button){
 
 }
 
 //--------------------------------------------------------------
-void testApp::mousePressed(int x, int y, int button){
+void ofApp::mousePressed(int x, int y, int button){
 	// cout << x << " " << y << endl;
 
 }
 
 //--------------------------------------------------------------
-void testApp::mouseReleased(int x, int y, int button){
+void ofApp::mouseReleased(int x, int y, int button){
 
 }
 
 //--------------------------------------------------------------
-void testApp::windowResized(int w, int h){
+void ofApp::windowResized(int w, int h){
 
 }
 

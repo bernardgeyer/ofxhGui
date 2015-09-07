@@ -137,11 +137,7 @@ void hTextBox::draw()
 	
     if(data->selected) { // draw caret
         if(data->label.size() > 0) {
-#if OF_VERSION < 7
-			hLine(x+textWidth+0, y+2, x+textWidth+0, y+gui->textHeight+2);
-#else
 			hLine(x+textWidth+5, y+2, x+textWidth+5, y+gui->textHeight+2);
-#endif
         }
         else hLine(x+2,           y+2, x+2          , y+gui->textHeight+2);
     }
